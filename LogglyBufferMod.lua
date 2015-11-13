@@ -99,6 +99,11 @@ function loggly:log(data)
 end
 
 
+function loggly:sendRequest()
+    requestBuffer:sendRequest()
+end
+
+
 -- Runtime:addEventListener("unhandledError", loggly.logError)
 function loggly.logError(error)
     loggly:log({errorMessage = error.errorMessage, stackTrace = error.stackTrace})
