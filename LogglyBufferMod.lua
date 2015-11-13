@@ -76,13 +76,6 @@ local function callback()
 end
 
 
-local function add(data)
-    if data ~= nil then
-        requestBuffer:add(data)
-    end
-end
-
-
 local function getDeviceInfo()
     if system.getInfo(loggly.ENVIRONMENT) == loggly.DEVICE then
         loggly.deviceInfo.appName = system.getInfo(loggly.APP_NAME)
@@ -102,7 +95,7 @@ end
 
 
 function loggly:log(data)
-    add(data)
+    requestBuffer:add(data)
 end
 
 
