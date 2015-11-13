@@ -1,6 +1,6 @@
 --[[
-loggly.com module for Corona SDK
-Copyright (c) 2015 Misael Madrigal
+loggly.com module for Corona SDK.
+Copyright (c) 2015 Misael Madrigal Torres.
 https://github.com/misaelmt/LogglyBufferMod
 ]]--
 
@@ -25,6 +25,8 @@ local loggly = {
     MODEL = 'model',
     SIMULATOR = 'simulator',
     POST = 'POST',
+    BULK_ENDPOINT = 'http://logs-01.loggly.com/bulk/',
+    TAG = '/tag/bulk/',
     NEW_LINE = '\n',
     
     debug = false,
@@ -37,6 +39,16 @@ local function networkListener(event)
     elseif loggly.debug then
         print (event.response)
     end
+end
+
+
+local function getParameters()
+    local headers = {}
+    headers["content-type"] = "text/plain"
+    local params = {}
+    params.headers = headers
+    
+    return params
 end
 
 
@@ -55,21 +67,17 @@ local function callback()
         data.deviceInfo = loggly.deviceInfo
         message.body = message.body .. json.encode(data) .. loggly.NEW_LINE
     end
-    
-    local headers = {}
-    headers["content-type"] = "text/plain"
-    local params = {}
-    params.headers = headers
 
-    print('loggly payload: ' .. message.body)
-    network.request(loggly.endpoint, loggly.POST, networkListener, message, params)
+    if loggly.debug then
+        print('Sending logs: ' .. message.body)
+    end
+    
+    network.request(loggly.endpoint, loggly.POST, networkListener, message, getParameters())
 end
 
 
 local function add(data)
     if data ~= nil then
---        data = json.encode(data)
---        data = data:gsub(loggly.NEW_LINE, '')
         requestBuffer:add(data)
     end
 end
@@ -89,7 +97,7 @@ end
 function loggly:init(token, bufferSize)
     requestBuffer:new(callback, bufferSize)
     self.token = token
-    self.endpoint = 'http://logs-01.loggly.com/bulk/' .. token .. '/tag/bulk/'
+    self.endpoint = loggly.BULK_ENDPOINT .. token .. loggly.TAG
 end
 
 
