@@ -8,7 +8,9 @@ https://github.com/misaelmt/LogglyBufferMod
 local json = require 'json'
 local network = require 'network'
 
-local requestBuffer = require 'libs.RequestBuffer.RequestBuffer'
+--local requestBuffer = require 'libs.RequestBuffer.RequestBuffer'
+local folderOfThisFile = (...):match("(.-)[^%.]+$")
+local requestBuffer = require(folderOfThisFile .. 'libs.RequestBuffer.RequestBuffer')
 
 
 
