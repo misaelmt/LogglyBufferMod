@@ -1,5 +1,6 @@
-local loggly = require 'LogglyBufferMod'
+require "CiderDebugger";local loggly = require 'LogglyBufferMod'
 
+display.setStatusBar( display.DefaultStatusBar )
 
 loggly:init('861d2eb8-add3-4e66-ae02-fe147fa7e5aa')
 loggly.debug = false

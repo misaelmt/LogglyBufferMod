@@ -28,6 +28,7 @@ local loggly = {
     BULK_ENDPOINT = 'http://logs-01.loggly.com/bulk/',
     TAG = '/tag/bulk/',
     NEW_LINE = '\n',
+    TABLE_TYPE = 'table',
     
     debug = false,
 }
@@ -58,7 +59,7 @@ local function callback()
     
     for i = 1, requestBuffer.last do
         local data
-        if type(requestBuffer.list[i]) ~= 'table' then
+        if type(requestBuffer.list[i]) ~= loggly.TABLE_TYPE then
             data = {}
             data.content = requestBuffer.list[i]
         else
